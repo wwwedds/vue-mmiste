@@ -110,9 +110,10 @@
       }
     },
    async mounted () {
-       this.$store.dispatch('getShopsList')
-     await this.$store.dispatch('getFoodList')
-         new Swiper ('.swiper-container', {
+      this.$store.dispatch('getShopsList')
+     
+     await  this.$store.dispatch('getFoodList')
+      new Swiper ('.swiper-container', {
         loop: true, // 循环模式选项
         // 如果需要分页器
         pagination: {
