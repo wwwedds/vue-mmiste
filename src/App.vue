@@ -14,6 +14,7 @@ export default {
  },
  mounted() {
    this.$store.dispatch('getAdress')
+   this.$store.dispatch('getAutoLogin')
  
  },
 }
