@@ -1,3 +1,4 @@
+import Vue from  'vue'
 export default {
   getAddress(state, adress) {
     state.address = adress
@@ -23,5 +24,17 @@ state.info=info
 },
 getRatings(state,{ratings}){
 state.ratings=ratings
+},
+saveAdd(state,{food}){
+if(food.count){
+  food.count++
+}else{
+ Vue.set(food,'count',1)
 }
+},
+saveIncrement(state,{food}){
+  if(food.count>0){
+    food.count--
+  }
+  },
 }

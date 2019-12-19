@@ -66,5 +66,16 @@ async  getRatings({commit}){
       
     }
 
-  }}
+  },
+updateFoodCount({commit},{isAdd,food}){
+ if(isAdd){
+   commit('saveAdd',{food})
+ }else{
+   
+   commit('saveIncrement',{food})
+ }
+
+}
+
+}
      

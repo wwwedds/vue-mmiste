@@ -1,5 +1,6 @@
 <template>
-  <div class="goods">
+<div>
+ <div class="goods">
     <div class="menu-wrapper" ref="left">
       <ul ref="leftUl">
         <li
@@ -24,7 +25,7 @@
             <li
               class="food-item bottom-border-1px"
               v-for="(food, index) in good.foods"
-              :key="index"
+              :key="index" @click='clickShow(food) '
             >
               <div class="icon">
                 <img width="57" height="57" :src="food.image" />
@@ -39,24 +40,34 @@
                 <div class="price">
                   <span class="now">￥{{food.price}}</span>
                 </div>
-                <div class="cartcontrol-wrapper">CartControl组件</div>
+                <div class="cartcontrol-wrapper">
+                  <CartControl :food='food'/>
+                  </div>
               </div>
             </li>
           </ul>
         </li>
       </ul>
     </div>
+    <ShopCard/>  
   </div>
+   <Food :food='food' ref='isShow'/>
+</div>
+ 
 </template>
 
 <script type="text/ecmascript-6">
 import BScroll from "better-scroll";
 import { mapState } from "vuex";
+import Food  from '../../components/food/food'
+import ShopCard   from '../../components/shopCard/shopCard'
 export default {
+
   data() {
     return {
       tops: [],
-      scrollY: 0
+      scrollY: 0,
+      food:{}
     };
   },
   computed: {
@@ -68,7 +79,7 @@ export default {
       );
       if (index !== this.index && this.leftScroll) {
         //保存上一次index
-        // this.index = index;
+        this.index = index
         //让左侧列表滑到当前指定位置
         const li = this.$refs.leftUl.children[index];
         this.leftScroll.scrollToElement(li, 300);
@@ -78,12 +89,17 @@ export default {
   },
   methods: {
     inScroll() {
-      this.leftScroll = new BScroll(this.$refs.left, {});
-      this.rightScroll = new BScroll(this.$refs.right, { probeType: 1 });
-      this.rightScroll.on("scroll", (x, y) => {
+      this.leftScroll = new BScroll(this.$refs.left, {click:true});
+      this.rightScroll = new BScroll(this.$refs.right, { 
+        
+        probeType: 2 ,
+        click:true});
+      this.rightScroll.on("scroll", ({x,y}) => {
+
         this.scrollY = Math.abs(y);
       });
-      this.rightScroll.on("scrollend", (x, y) => {
+      this.rightScroll.on("scrollEnd", ({x, y}) => {
+
         this.scrollY = Math.abs(y);
       });
     },
@@ -102,6 +118,10 @@ export default {
       let top=this.tops[index]
       this.scrollY=top
       this.rightScroll.scrollTo(0,-top,300)
+    },
+    clickShow(food){
+      this.food=food
+      this.$refs.isShow.toggleShow()
     }
   },
   watch: {
@@ -111,7 +131,18 @@ export default {
         this.inTop();
       });
     }
-  }
+  },
+  //     mounted() {
+  //    this.$nextTick(() => {
+  //       this.inScroll();
+  //       this.inTop();
+  //     });
+  // },
+     components:{
+    Food,
+    ShopCard  
+  },
+
 };
 </script>
 <style scoped lang="stylus" rel="stylesheet/stylus">
