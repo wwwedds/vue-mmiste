@@ -71,7 +71,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["goods"]),
+    ...mapState({"goods":state=>state.shop.goods}),
     currentIndex() {
       const { scrollY, tops } = this;
       let  index = tops.findIndex(
@@ -124,6 +124,7 @@ export default {
       this.$refs.isShow.toggleShow()
     }
   },
+ 
   watch: {
     goods() {
       this.$nextTick(() => {
@@ -132,16 +133,17 @@ export default {
       });
     }
   },
+ 
+     components:{
+    Food,
+    ShopCard  
+  },
   //     mounted() {
   //    this.$nextTick(() => {
   //       this.inScroll();
   //       this.inTop();
   //     });
   // },
-     components:{
-    Food,
-    ShopCard  
-  },
 
 };
 </script>

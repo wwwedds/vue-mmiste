@@ -104,7 +104,10 @@
   export default {
     
     computed:{
-      ...mapState(['address', 'categorys', 'shops'])//取状态数据,
+      ...mapState({
+       'address':state=>state.msite.address,
+       'categorys':state=>state.msite.categorys, 
+       'shops':state=>state.msite.shops})//取状态数据,
      , categorysA(){
         return chunk(this.categorys,8)
       }

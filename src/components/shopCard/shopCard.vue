@@ -4,17 +4,17 @@
     <div class="content">
       <div class="content-left">
         <div class="logo-wrapper">
-          <div class="logo highlight">
-            <i class="iconfont icon-shopping_cart highlight"></i>
+          <div class="logo" :class="{highlight:totleCount>0}">
+            <i class="iconfont icon-shopping_cart"  :class="{highlight:totleCount>0}"></i>
           </div>
-          <div class="num">1</div>
+          <div class="num" v-show="totleCount>0">{{totleCount}}</div>
         </div>
-        <div class="price highlight">￥10</div>
-        <div class="desc">另需配送费￥4元</div>
+        <div class="price" :class="{highlight: totalCount>0}">￥</div>
+        <div class="desc">另需配送费￥{{}}元</div>
       </div>
       <div class="content-right">
-        <div class="pay not-enough">
-          还差￥10元起送
+        <div class="pay" :class="payClass">
+          还差￥{{payTest}}元起送
         </div>
       </div>
     </div>
@@ -25,15 +25,11 @@
       </div>
       <div class="list-content">
         <ul>
-          <li class="food">
-            <span class="name">红枣山药糙米粥</span>
-            <div class="price"><span>￥10</span></div>
+          <li class="food" v-for="(food) in cartFoods" :key="food.name">
+            <span class="name">{{food.name}}</span>
+            <div class="price"><span>￥{{food.price}}</span></div>
             <div class="cartcontrol-wrapper">
-              <div class="cartcontrol">
-                <div class="iconfont icon-remove_circle_outline"></div>
-                <div class="cart-count">1</div>
-                <div class="iconfont icon-add_circle"></div>
-              </div>
+               <CartControl :food='food'/>
             </div>
           </li>
         </ul>
@@ -45,7 +41,33 @@
 </template>
 
 <script type="text/ecmascript-6">
+import { mapState ,mapGetters} from 'vuex';
   export default {
+    computed: {
+      ...mapState({
+        cardFoods:state=>state.shop.cardFoods,
+        info:state=>state.shop.info
+      }),
+      ...mapGetters(['totleCount', 'totlePrise']),
+  
+      payClass(){
+        const {totlePrise}=this
+        const {minPrice} =this.info
+        return totlePrise<minPrice?'not-enough':'enough'
+      },
+      payTest(){
+         const {totlePrise}=this
+        const {minPrice} =this.info
+         if(totlePrise===0){
+        return `还差￥${minPrice}起送`
+       }else if(totlePrise<minPrice){
+          return `还差￥${minPrice-totlePrise}起送`
+       }else{
+         return  '去结算'
+       }
+      }
+
+    },
   }
 </script>
 <style lang="stylus" rel="stylesheet/stylus" scoped>
