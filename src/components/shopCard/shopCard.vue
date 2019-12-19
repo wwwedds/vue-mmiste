@@ -2,7 +2,7 @@
 <div>
   <div class="shopcart">
     <div class="content">
-      <div class="content-left">
+      <div class="content-left"  @click="clickShow">
         <div class="logo-wrapper">
           <div class="logo" :class="{highlight:totleCount>0}">
             <i class="iconfont icon-shopping_cart"  :class="{highlight:totleCount>0}"></i>
@@ -18,14 +18,15 @@
         </div>
       </div>
     </div>
-    <div class="shopcart-list" style="display: none;">
+    <transition name='move'>
+      <div class="shopcart-list" v-show="isShow" >
       <div class="list-header">
         <h1 class="title">购物车</h1>
-        <span class="empty">清空</span>
+        <span class="empty" @click="clearCard">清空</span>
       </div>
       <div class="list-content">
         <ul>
-          <li class="food" v-for="(food) in cartFoods" :key="food.name">
+          <li class="food" v-for="(food) in cardFoods" :key="food.name">
             <span class="name">{{food.name}}</span>
             <div class="price"><span>￥{{food.price}}</span></div>
             <div class="cartcontrol-wrapper">
@@ -35,39 +36,72 @@
         </ul>
       </div>
     </div>
+    </transition>
+  
   </div>
-  <div class="list-mask" style="display: none;"></div>
+  <transition name='fade'>
+    <div class="list-mask"  v-show="isShow"  @click="clickShow"></div>
+  </transition>
+
 </div>
 </template>
 
 <script type="text/ecmascript-6">
 import { mapState ,mapGetters} from 'vuex';
+import {messageBox} from 'mint-ui'
   export default {
+    data() {
+      return {
+        isShow:false
+      }
+    },
     computed: {
       ...mapState({
         cardFoods:state=>state.shop.cardFoods,
         info:state=>state.shop.info
       }),
       ...mapGetters(['totleCount', 'totlePrise']),
+
+      //  cardShow(){
+      //   if (this.totelCount===0) {
+      //     this.isShow = false
+      //     return false
+      //   }}
   
-      payClass(){
-        const {totlePrise}=this
-        const {minPrice} =this.info
-        return totlePrise<minPrice?'not-enough':'enough'
-      },
-      payTest(){
-         const {totlePrise}=this
-        const {minPrice} =this.info
-         if(totlePrise===0){
-        return `还差￥${minPrice}起送`
-       }else if(totlePrise<minPrice){
-          return `还差￥${minPrice-totlePrise}起送`
-       }else{
-         return  '去结算'
-       }
-      }
+      // payClass(){
+      //   const {totlePrise}=this
+      //   const {minPrice} =this.info
+      //   return totlePrise<minPrice?'not-enough':'enough'
+      // },
+      // payTest(){
+      //    const {totlePrise}=this
+      //   const {minPrice} =this.info
+      //    if(totlePrise===0){
+      //   return `还差￥${minPrice}起送`
+      //  }else if(totlePrise<minPrice){
+      //     return `还差￥${minPrice-totlePrise}起送`
+      //  }else{
+      //    return  '去结算'
+      //  }
+      // }
+     
+     
 
     },
+    methods: {
+      clickShow(){
+        this.isShow=!this.isShow
+      },
+
+    clearCard(){
+      messageBox.confirm('确定清空购物车么？').then(
+        ()=>{
+         this.$store.commit('clearCard')
+        }
+       
+        
+      )
+    },}
   }
 </script>
 <style lang="stylus" rel="stylesheet/stylus" scoped>
@@ -164,6 +198,12 @@ import { mapState ,mapGetters} from 'vuex';
       top: 0
       z-index: -1
       width: 100%
+      transform translateY(-100%)
+      &.move-enter-active, &.move-leave-active
+        transition all .5s
+      &.move-enter, &.move-leave-to
+        opacity 0
+        transform translateY(0)
       .list-header
         height: 40px
         line-height: 40px
@@ -217,7 +257,7 @@ import { mapState ,mapGetters} from 'vuex';
     opacity: 1
     background: rgba(7, 17, 27, 0.6)
     &.fade-enter-active, &.fade-leave-active
-      transition: all 0.5s
+      transition: opacity 0.5s
     &.fade-enter, &.fade-leave-to
       opacity: 0
 </style>

@@ -33,6 +33,12 @@ export  default{
       //当count变为0的时候，删除food
      state.cardFoods.splice(state.cardfoods.indexof(food),1)  //state.cardfoods.indexof(food)求出对应
       },
+      clearCard(state){
+        state.cardFoods.forEach(food => {
+           food.count=0
+        });
+       state.cardFoods=[]
+      }
   },
   actions:{
 
