@@ -58,7 +58,7 @@ async getGoods({commit}){
     }
     },
     
-  async getRatings({commit}){
+  async  getRatings({commit}){
       const result = await reqRatings()
       if(result.code===0){
         const ratings=result.data
