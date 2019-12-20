@@ -124,6 +124,13 @@ export default {
       this.$refs.isShow.toggleShow()
     }
   },
+        mounted() {
+          
+     this.$nextTick(() => {
+        this.inScroll();
+        this.inTop();
+      });
+  },
  
   watch: {
     goods() {
@@ -138,12 +145,7 @@ export default {
     Food,
     ShopCard  
   },
-  //     mounted() {
-  //    this.$nextTick(() => {
-  //       this.inScroll();
-  //       this.inTop();
-  //     });
-  // },
+
 
 };
 </script>

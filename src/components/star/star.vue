@@ -1,5 +1,5 @@
 <template>
-   <div class="star star-24" :class="'star-'+size">
+   <div class="star" :class="'star-'+size">
     <span class="star-item" v-for="(sc, index) in starClass" :key="index" :class="sc"></span>
    </div>
 </template>
@@ -9,11 +9,12 @@
    props:['score','size'],
     computed: {
         starClass(){
+          
           const arr=[]
           const {score}=this
           console.log(score);
           const scoreInter=Math.floor(score)
-          for (let index = 0; index <scoreInter; index++) {
+          for (let index = 0; index<scoreInter; index++) {
              arr.push('on')
           }
           if(score*10-scoreInter*10>=5){

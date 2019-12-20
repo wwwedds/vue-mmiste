@@ -28,11 +28,17 @@ export  default{
     },
     saveIncrement(state,{food}){
       if(food.count>0){
-        food.count--
+        food.count--;
+        //当count变为0的时候，删除food
+        /* eslint-disable no-debugger */
+        debugger;
+        if (food.count===0) {
+          console.log('----', state.cardFoods)
+          state.cardFoods.splice(state.cardFoods.indexOf(food),1)  //state.cardfoods.indexof(food)求出对应
+        }
       }
-      //当count变为0的时候，删除food
-     state.cardFoods.splice(state.cardfoods.indexof(food),1)  //state.cardfoods.indexof(food)求出对应
-      },
+      
+    },
       clearCard(state){
         state.cardFoods.forEach(food => {
            food.count=0
@@ -90,14 +96,10 @@ async getGoods({commit}){
   getters:{
 
     totleCount(state){
-     return state.cardFoods.reduce((pre,food)=>
-      pre+food.count
-     ,0)
+     return state.cardFoods.reduce((pre,food)=>pre+food.count, 0)
     },
     totlePrise(state){
-      return state.cardfoods.reduce((pre,food)=>
-        pre+food.count*food.price
-       ,0)
+      return state.cardFoods.reduce((pre,food)=>pre+food.count*food.price, 0)
     }
   }
   }

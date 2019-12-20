@@ -53,7 +53,7 @@
               </section>
               <section class="shop_rating_order">
                 <section class="shop_rating_order_left">
-                 <Star :score='shop.ratings' :size='24'/>
+                 <Star :score='shop.rating' :size='24'/>
 
                   <div class="rating_section">
                     {{shop.rating}}
@@ -122,6 +122,7 @@
   }
 </script>
 
+</script>
 <style lang="stylus" rel="stylesheet/stylus" scoped>
 @import '../../common/stylus/mixins.styl';
    .msite  //首页

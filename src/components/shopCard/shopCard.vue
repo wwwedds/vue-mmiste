@@ -9,17 +9,17 @@
           </div>
           <div class="num" v-show="totleCount>0">{{totleCount}}</div>
         </div>
-        <div class="price" :class="{highlight: totalCount>0}">￥</div>
-        <div class="desc">另需配送费￥{{}}元</div>
+        <div class="price" :class="{highlight: totleCount>0}">￥{{totlePrise}}</div>
+        <div class="desc">另需配送费￥{{info.deliveryPrice}}元</div>
       </div>
       <div class="content-right">
         <div class="pay" :class="payClass">
-          还差￥{{payTest}}元起送
+          {{payTest}}
         </div>
       </div>
     </div>
     <transition name='move'>
-      <div class="shopcart-list" v-show="isShow" >
+      <div class="shopcart-list" v-show="cardShow" >
       <div class="list-header">
         <h1 class="title">购物车</h1>
         <span class="empty" @click="clearCard">清空</span>
@@ -62,28 +62,32 @@ import {messageBox} from 'mint-ui'
       }),
       ...mapGetters(['totleCount', 'totlePrise']),
 
-      //  cardShow(){
-      //   if (this.totelCount===0) {
-      //     this.isShow = false
-      //     return false
-      //   }}
+       cardShow(){
+        if (this.totelCount===0) {
+          this.isShow = false
+        return false
+        }else{
+          return true
+        }
+         
+        },
   
-      // payClass(){
-      //   const {totlePrise}=this
-      //   const {minPrice} =this.info
-      //   return totlePrise<minPrice?'not-enough':'enough'
-      // },
-      // payTest(){
-      //    const {totlePrise}=this
-      //   const {minPrice} =this.info
-      //    if(totlePrise===0){
-      //   return `还差￥${minPrice}起送`
-      //  }else if(totlePrise<minPrice){
-      //     return `还差￥${minPrice-totlePrise}起送`
-      //  }else{
-      //    return  '去结算'
-      //  }
-      // }
+      payClass(){
+        const {totlePrise}=this
+        const {minPrice} =this.info
+        return totlePrise<minPrice?'not-enough':'enough'
+      },
+      payTest(){
+         const {totlePrise}=this
+        const {minPrice} =this.info
+         if(totlePrise===0){
+        return `还差￥${minPrice}起送`
+       }else if(totlePrise<minPrice){
+          return `还差￥${minPrice-totlePrise}起送`
+       }else{
+         return  '去结算'
+       }
+      }
      
      
 
