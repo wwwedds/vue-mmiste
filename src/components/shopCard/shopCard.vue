@@ -1,6 +1,6 @@
 <template>
 <div>
-  <div class="shopcart">
+  <div class="shopcart" v-if="totleCount>0">
     <div class="content">
       <div class="content-left"  @click="clickShow">
         <div class="logo-wrapper">
@@ -58,7 +58,7 @@ import {messageBox} from 'mint-ui'
     computed: {
       ...mapState({
         cardFoods:state=>state.shop.cardFoods,
-        info:state=>state.shop.info
+        info:state=>state.shop.shop.info||{}
       }),
       ...mapGetters(['totleCount', 'totlePrise']),
 

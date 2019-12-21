@@ -1,21 +1,30 @@
 import Vue from  'vue'
-import { reqInfo,reqGoods,reqRatings, reqAutoLogin} from '../../api/index'
+import { reqInfo,reqGoods,reqRatings, reqAutoLogin, reqShop} from '../../api/index'
+import {getCartFoods}from '../../uuit/index'
 export  default{
   state:{
-   goods:[],
-    ratings:[],
-    info:{},
+  //  goods:[],
+  //   ratings:[],
+  //   info:{},
+    shop:{},
     cardFoods:[]
   },
   mutations:{
-    getGoods(state,{goods}){
-      state.goods=goods
-    },
-    getInfo(state,{info}){
-    state.info=info
-    },
-    getRatings(state,{ratings}){
-    state.ratings=ratings
+    // getGoods(state,{goods}){
+    //   state.goods=goods
+    // },
+    // getInfo(state,{info}){
+    // state.info=info
+    // },
+    // getRatings(state,{ratings}){
+    // state.ratings=ratings
+    // },
+    getShop(state,{shop={},cardFoods=[]}){
+     state.shop=shop
+     state.cardFoods=cardFoods
+
+
+
     },
     saveAdd(state,{food}){
     if(food.count){
@@ -30,8 +39,8 @@ export  default{
       if(food.count>0){
         food.count--;
         //当count变为0的时候，删除food
-        /* eslint-disable no-debugger */
-        debugger;
+        // /* eslint-disable no-debugger */
+        // debugger;
         if (food.count===0) {
           console.log('----', state.cardFoods)
           state.cardFoods.splice(state.cardFoods.indexOf(food),1)  //state.cardfoods.indexof(food)求出对应
@@ -49,28 +58,40 @@ export  default{
   actions:{
 
     
-async getGoods({commit}){
-  const result = await reqGoods()
-  if(result.code===0){
-    const goods=result.data
-    commit('getGoods',{goods})
-  }
-  },
-  async getInfo({commit}){
-    const result = await reqInfo()
-    if(result.code===0){
-      const info=result.data
-      commit('getInfo',{info})
-    }
-    },
+// async getGoods({commit}){
+//   const result = await reqGoods()
+//   if(result.code===0){
+//     const goods=result.data
+//     commit('getGoods',{goods})
+//   }
+//   },
+//   async getInfo({commit}){
+//     const result = await reqInfo()
+//     if(result.code===0){
+//       const info=result.data
+//       commit('getInfo',{info})
+//     }
+//     },
     
-  async getRatings({commit}){
-      const result = await reqRatings()
-      if(result.code===0){
-        const ratings=result.data
-        commit('getRatings',{ratings})
-      }
-      },
+//   async getRatings({commit}){
+//       const result = await reqRatings()
+//       if(result.code===0){
+//         const ratings=result.data
+//         commit('getRatings',{ratings})
+//       }
+//       },
+      async getShop({commit,state},id){
+        if(id==state.shop.id) return 
+        if(state.shop.id){
+          commit('getShop',{})
+        }
+       const result=await reqShop(id)
+       if(result.code===0){
+         const shop=result.data
+         const cardFoods=getCartFoods(shop)
+         commit('getShop',{shop,cardFoods})
+       }
+         },
     async  getAutoLogin({commit,state}){
       const {user,token}= state
     

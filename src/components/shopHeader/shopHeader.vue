@@ -2,7 +2,7 @@
   <div class="shop-header" v-if="info.supports">
     <nav class="shop-nav"
      :style="{backgroundImage: `url(${info.bgImg})`}">
-      <a class="back" @click="$router.replace('/profile')">
+      <a class="back" @click="$router.push('/msite')">
         <i class="iconfont icon-arrow_left"/>
       </a>
     </nav>
@@ -118,7 +118,9 @@ import {mapState} from 'vuex'
       }
     },
       computed: {
-      ...mapState({'info':state=>state.shop.info})
+      ...mapState({'info':state=>state.shop.shop.info||{
+
+      }})
     },
   }
 </script>

@@ -1,15 +1,15 @@
 <template>
   <div>
-    <shopHeader />
+    <shopHeader/>
     <div class="tab">
       <div class="tab-item">
-        <routerLink to="/shop/goods" replace>点餐</routerLink>
+        <routerLink :to="`/shop/${id}/goods`" replace>点餐</routerLink>
       </div>
       <div class="tab-item">
-        <routerLink to="/shop/ratings" replace>评价</routerLink>
+        <routerLink :to="`/shop/${id}/ratings`" replace>评价</routerLink>
       </div>
       <div class="tab-item">
-        <routerLink to="/shop/info" replace>商家</routerLink>
+        <routerLink :to="`/shop/${id}/info`" replace>商家</routerLink>
       </div>
       
     </div>
@@ -19,16 +19,31 @@
 
 <script type="text/ecmascript-6">
 import shopHeader from "../../components/shopHeader/shopHeader";
+import { mapState } from 'vuex';
+import {saveCartFoods} from '../../uuit/index'
 export default {
+  props:['id'],
   components: {
     shopHeader
   },
+  computed: {
+    ...mapState({
+      shop:state=>state.shop
+    })
+  },
   mounted() {
-    this.$store.dispatch("getGoods");
-    this.$store.dispatch("getInfo");
-    this.$store.dispatch("getRatings");
+    const id=this.id
+    console.log(id);
+    // this.$store.dispatch("getGoods");
+    // this.$store.dispatch("getInfo");
+    // this.$store.dispatch("getRatings");
+    this.$store.dispatch('getShop',id)
+  },
+  beforeDestroy() {
+    const {cardFoods,shop:{id}}=this.shop
+      saveCartFoods(id,cardFoods)
   }
-};
+}
 </script>
 <style lang="stylus" rel="stylesheet/stylus">
 @import '../../common/stylus/mixins.styl';

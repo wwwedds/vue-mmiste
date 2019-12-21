@@ -19,7 +19,7 @@
         //考虑初始值
        this.$store.dispatch('updateFoodCount',{isAdd,food:this.food})
        
-      },1000)
+      },1000,{trailing:false})//函数节流默认点击两次，改成一次
     },
   }
 </script>

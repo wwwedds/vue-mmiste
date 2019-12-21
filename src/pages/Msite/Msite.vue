@@ -38,7 +38,8 @@
     </div>
     <div class="shop_container">
       <ul class="shop_list" v-if="shops.length>0">
-        <li class="shop_li border-1px" v-for="(shop) in shops" :key='shop.id' @click="$router.replace('/shop')">
+        <li class="shop_li border-1px" v-for="(shop) in shops" :key='shop.id'
+         @click="$router.replace(`/shop/${shop.id}`)">
           <a>
             <div class="shop_left">
               <img class="shop_img" :src="'https://fuss10.elemecdn.com'+shop.image_path">
@@ -108,6 +109,8 @@
       }
     },
    async mounted () {
+     
+     console.log(this.shops)
        this.$store.dispatch('getShopsList')
      await this.$store.dispatch('getFoodList')
          new Swiper ('.swiper-container', {
@@ -122,7 +125,6 @@
   }
 </script>
 
-</script>
 <style lang="stylus" rel="stylesheet/stylus" scoped>
 @import '../../common/stylus/mixins.styl';
    .msite  //首页

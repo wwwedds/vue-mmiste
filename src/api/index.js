@@ -18,5 +18,8 @@ export const reqGoods= ()=> ajax('/goods')
 export const reqRatings=()=>ajax('/ratings')
 export const reqInfo=()=>ajax('/info')
 
+//获取指定商家的shop信息
+export const reqShop=(id)=>ajax('/shop/'+id)
+
 //自动登录
 export const  reqAutoLogin=()=>ajax.get('/auto_login')

@@ -49,21 +49,26 @@ export default new VueRouter({
       redirect: '/msite'
     },
     {
-      path: '/shop',
+      path: '/shop/:id',
+      props:true,
       component: Shop,
       children:[
         {
-          path: '/shop/goods',
+          path: 'goods',
           component: Goods,
         },
         {
-          path: '/shop/info',
+          path: 'info',
           component: Info,
         },
         {
-          path: '/shop/ratings',
+          path: 'ratings',
           component: Ratings,
         },
+        {
+          path: '',
+          redirect: 'goods'
+        }
       ]
     }
   ]

@@ -71,7 +71,7 @@ export default {
     };
   },
   computed: {
-    ...mapState({"goods":state=>state.shop.goods}),
+    ...mapState({"goods":state=>state.shop.shop.goods}),
     currentIndex() {
       const { scrollY, tops } = this;
       let  index = tops.findIndex(
@@ -89,6 +89,8 @@ export default {
   },
   methods: {
     inScroll() {
+     if(!this.leftScroll){
+       console.log('refresh');
       this.leftScroll = new BScroll(this.$refs.left, {click:true});
       this.rightScroll = new BScroll(this.$refs.right, { 
         
@@ -101,7 +103,11 @@ export default {
       this.rightScroll.on("scrollEnd", ({x, y}) => {
 
         this.scrollY = Math.abs(y);
-      });
+      });}else{
+        this.leftScroll.refresh()
+        this.rightScroll.refresh()
+      }
+
     },
     inTop() {
       const tops = [];
@@ -125,7 +131,10 @@ export default {
     }
   },
         mounted() {
-          
+          // if(this.goods.length>0){
+          //   this.inScroll();
+          //   this.inTop();
+          // }
      this.$nextTick(() => {
         this.inScroll();
         this.inTop();
